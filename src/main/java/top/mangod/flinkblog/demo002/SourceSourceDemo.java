@@ -28,7 +28,8 @@ public class SourceSourceDemo {
                 .reduce((a, b) -> new Student(a.name, a.score + b.score));
 
 
-        transformedStream.print("result =======").setParallelism(1);
+//        transformedStream.print("result =======").setParallelism(1);
+        transformedStream.addSink(new AlertSink());
 
         // 5. 启动任务
         env.execute(SourceSourceDemo.class.getSimpleName());
@@ -56,7 +57,7 @@ public class SourceSourceDemo {
         }
     }
 
-    private static class Student {
+    public static class Student {
         private String name;
         private Integer score;
 
