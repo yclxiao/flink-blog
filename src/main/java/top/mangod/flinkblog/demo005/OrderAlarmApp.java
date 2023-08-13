@@ -36,9 +36,9 @@ public class OrderAlarmApp {
         DataStreamSource<String> orderStream = environment.socketTextStream("localhost", 9527);
         // 3、数据读取个切割方式
         SingleOutputStreamOperator<OrderBO> resultDataStream = orderStream
-                .flatMap(new CleanDataAnd2Order())
-                .keyBy(x -> x.getUserId())
-                .process(new AlarmLogic());
+                .flatMap(new CleanDataAnd2Order()) // 清洗和处理数据
+                .keyBy(x -> x.getUserId()) // 分区
+                .process(new AlarmLogic()); // 处理告警逻辑
 
         // 4、打印分析结果
         resultDataStream.print("告警===>");
